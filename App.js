@@ -7,13 +7,9 @@ function App() {
     const [amount, setAmount] = useState('');
     const [editingId, setEditingId] = useState(null);
     const [expenseDate, setExpenseDate] = useState(new Date().toISOString().split('T')[0]);
-
-    // Stan dla wybranego roku i miesiąca
     const [selectedYear, setSelectedYear] = useState(new Date().getFullYear().toString());
     const [selectedMonth, setSelectedMonth] = useState((new Date().getMonth() + 1).toString().padStart(2, '0'));
-
-    const [budget, setBudget] = useState(() => {
-        const saved = localStorage.getItem('user_budget');
+    const [budget, setBudget] = useState(() => {const saved = localStorage.getItem('user_budget');
         return saved ? Number(saved) : 2500;
     });
 
@@ -42,10 +38,7 @@ function App() {
         };
         loadData();
     }, []);
-
-    // Filtrowanie połączone: Rok + Miesiąc
-    const filteredExpenses = expenses.filter(exp => {
-        if (!exp.date) return false;
+    const filteredExpenses = expenses.filter(exp => {if (!exp.date) return false;
         return exp.date.startsWith(`${selectedYear}-${selectedMonth}`);
     });
 
@@ -253,5 +246,6 @@ function App() {
         </div>
     );
 }
+
 
 export default App;
