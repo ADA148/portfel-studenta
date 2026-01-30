@@ -61,3 +61,8 @@ Aplikacja została zaprojektowana w sposób modułowy. Logika frontendu jest odd
 <img width="1471" height="885" alt="image" src="https://github.com/user-attachments/assets/5c74e9b9-b3b7-4f53-9e97-a503bc598aca" />
 <img width="1467" height="902" alt="image" src="https://github.com/user-attachments/assets/5acf1db1-60de-4f7f-82e8-c504c7eb9417" />
 <img width="1476" height="901" alt="image" src="https://github.com/user-attachments/assets/cf9da196-01b7-46ba-8164-313b30c88f10" />
+
+Autorzy:
+Adrianna Czyżewska
+Kornelia Cysewska
+Piotr Bach
