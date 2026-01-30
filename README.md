@@ -33,3 +33,4 @@ Projekt otworzy się automatycznie w przeglądarce pod adresem http://localhost:
 Podsumowanie techniczne
 Aplikacja została zaprojektowana w sposób modułowy. Logika frontendu jest oddzielona od konfiguracji API, co ułatwia ewentualną rozbudowę. Zastosowanie Tailwind CSS pozwoliło na uzyskanie responsywnego i nowoczesnego wyglądu przy zachowaniu lekkości kodu.
 
+<img width="1464" height="898" alt="image" src="https://github.com/user-attachments/assets/5e55880f-a3ed-4735-bc3d-082856f75b89" />
