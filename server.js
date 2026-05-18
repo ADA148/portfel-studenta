@@ -1,29 +1,18 @@
+// Importujemy tylko podstawowe biblioteki (bez mongoose)
 const express = require('express');
-const mongoose = require('mongoose');
 const cors = require('cors');
-
 const app = express();
 
 app.use(cors({
     origin: 'http://localhost:3000',
     allowedHeaders: ['Content-Type', 'Authorization']
 }));
-
 app.use(express.json());
 
 const MY_SECRET_TOKEN = "student-projekt-2025";
-const MONGO_URI = "mongodb+srv://admin:haslo@cluster0.im6osns.mongodb.net/?appName=Cluster0";
 
-mongoose.connect(MONGO_URI)
-    .then(() => console.log("Połączono z MongoDB! 🚀"))
-    .catch(err => console.error(err));
-
-const ExpenseSchema = new mongoose.Schema({
-    title: String,
-    amount: Number,
-    date: String
-});
-const Expense = mongoose.model('Expense', ExpenseSchema);
+// Nasza "sztuczna" baza danych (zwykła pusta tablica w pamięci RAM)
+let fakeDatabase = [];
 
 app.use((req, res, next) => {
     const userToken = req.headers['authorization'];
@@ -34,45 +23,27 @@ app.use((req, res, next) => {
     }
 });
 
-app.get('/api/expenses', async (req, res) => {
-    try {
-        const expenses = await Expense.find();
-        res.json(expenses);
-    } catch (err) {
-        res.status(500).json(err);
-    }
+app.get('/api/expenses', (req, res) => {
+    // Zwracamy naszą sztuczną listę
+    res.json(fakeDatabase);
 });
 
-app.post('/api/expenses', async (req, res) => {
-    try {
-        const newExpense = new Expense(req.body);
-        const savedExpense = await newExpense.save();
-        res.status(201).json(savedExpense);
-    } catch (err) {
-        res.status(400).json(err);
-    }
+app.post('/api/expenses', (req, res) => {
+    // Tworzymy unikalne ID na podstawie aktualnego czasu i dodajemy wydatek do listy
+    const newExpense = { _id: Date.now().toString(), ...req.body };
+    fakeDatabase.push(newExpense);
+    res.status(201).json(newExpense);
 });
 
-app.put('/api/expenses/:id', async (req, res) => {
-    try {
-        const updatedExpense = await Expense.findByIdAndUpdate(
-            req.params.id,
-            req.body,
-            { new: true }
-        );
-        res.json(updatedExpense);
-    } catch (err) {
-        res.status(500).json(err);
-    }
+app.put('/api/expenses/:id', (req, res) => {
+    // Odsyłamy potwierdzenie aktualizacji
+    res.json({ _id: req.params.id, ...req.body });
 });
 
-app.delete('/api/expenses/:id', async (req, res) => {
-    try {
-        await Expense.findByIdAndDelete(req.params.id);
-        res.json({ message: "Deleted" });
-    } catch (err) {
-        res.status(500).json(err);
-    }
+app.delete('/api/expenses/:id', (req, res) => {
+    // Usuwamy dany wydatek ze sztucznej listy odfiltrowując go
+    fakeDatabase = fakeDatabase.filter(exp => exp._id !== req.params.id);
+    res.json({ message: "Deleted" });
 });
 
-app.listen(5000, () => console.log("Server running on port 5000"));
+app.listen(5000, () => console.log("Serwer działa na porcie 5000 (Baza w pamięci RAM) 🚀"));
